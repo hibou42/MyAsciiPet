@@ -1,5 +1,6 @@
 # **MyAsciiPet**
 ## *A terminal compagnion made in C++.*
+## Tamagotchi like but much better
 
 ### infos :
   use make to compile the project, you will need c++ compiler, the rest should be included

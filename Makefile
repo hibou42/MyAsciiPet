@@ -20,7 +20,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: %.cpp | $(OBJ_DIR)
-	@echo "Compilation in progress"	
+	@echo "Compilation in progress"
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
