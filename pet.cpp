@@ -70,7 +70,7 @@ PetManager load_game(const std::string& filename = "pet_save") {
     return manager;
 }
 
-void display_pet(const std::string& file_path) {
+void display_pet(const std::string& file_path, size_t state) {
     std::ifstream file(file_path);
     if (!file.is_open()) {
         std::cerr << "Could not open the file: " << file_path << std::endl;
@@ -79,12 +79,28 @@ void display_pet(const std::string& file_path) {
 
     std::srand(std::time(nullptr)); // Seed for randomness
     char c;
-    while (file.get(c)) {
-        if (c == 'v') {
-            char replacement_chars[] = {'v', 'o', 'u', 'x'};
-            c = replacement_chars[std::rand() % 3];
-        }
-        std::cout << c;
+	bool is_new_line = true;
+	int space_counter = 0;
+	bool increasing = true;
+	while (file.get(c)) {
+		if (is_new_line) {
+			// Print spaces according to the state value at the start of each line
+			for (size_t i = 0; i < state / 2; ++i) {
+				std::cout << ' ';
+			}
+			is_new_line = false; // Reset the flag
+		}
+
+		if (c == 'v') {
+			char replacement_chars[] = {'v', 'o', 'u', 'x'};
+			c = replacement_chars[std::rand() % 4]; // Corrected the array size to 4
+		}
+
+		std::cout << c;
+
+		if (c == '\n') {
+			is_new_line = true; // Set the flag if we encounter a newline character
+		}
     }
     std::cout << std::endl;
     file.close();
@@ -102,7 +118,7 @@ void animate_pet(Pet* pet, PetManager& manager) {
     std::signal(SIGINT, signal_handler);
     while (!quit) {
         pet->update_stats();
-        display_pet("./ascii_art/owl" + states[current_state]);
+        display_pet("./ascii_art/owl" + states[current_state], current_state);
         pet->display_stats();
         
         current_state = (current_state + 1) % states.size();
