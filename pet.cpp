@@ -70,50 +70,46 @@ PetManager load_game(const std::string& filename = "pet_save") {
     return manager;
 }
 
-void display_pet(const std::string& state) {
-    std::map<std::string, std::vector<std::string>> pet_states = {
-        {"happy", {
-            "  ^_^  ",
-            "( o o )",
-            " ( - ) "
-        }},
-        {"sad", {
-            "  T_T  ",
-            "( o o )",
-            " ( - ) "
-        }},
-        {"eating", {
-            "  ^_^  ",
-            "( o o )",
-            " (U U) "
-        }}
-    };
-
-    for (const auto& line : pet_states[state]) {
-        std::cout << line << std::endl;
+void display_pet(const std::string& file_path) {
+    std::ifstream file(file_path);
+    if (!file.is_open()) {
+        std::cerr << "Could not open the file: " << file_path << std::endl;
+        return;
     }
+
+    std::srand(std::time(nullptr)); // Seed for randomness
+    char c;
+    while (file.get(c)) {
+        if (c == 'v') {
+            char replacement_chars[] = {'v', 'o', 'u', 'x'};
+            c = replacement_chars[std::rand() % 3];
+        }
+        std::cout << c;
+    }
+    std::cout << std::endl;
+    file.close();
 }
 
 void animate_pet(Pet* pet, PetManager& manager) {
     std::cout << "My ASCII Pet: " << pet->get_name() << std::endl;
-    std::cout << "(Ctrl+C save & quit)" << std::endl << std::endl;
+    std::cout << "(Ctrl+C save & quit)" << std::endl;
 
     std::time_t last_save = std::time(nullptr);
-    std::vector<std::string> states = {"happy", "sad", "eating"};
+    std::vector<std::string> states = {"1", "2", "3", "4", "5", "6"};
     size_t current_state = 0;
 
     global_manager = &manager;
     std::signal(SIGINT, signal_handler);
     while (!quit) {
         pet->update_stats();
-        display_pet(states[current_state]);
+        display_pet("./ascii_art/owl" + states[current_state]);
         pet->display_stats();
         
         current_state = (current_state + 1) % states.size();
         
         std::this_thread::sleep_for(std::chrono::seconds(1));
         if (!quit)
-            std::cout << "\033[7A"; // Move cursor up 7 lines
+            std::cout << "\033[8A"; // Move cursor up 8 lines
 
         // Sauvegarde automatique toutes les 60 secondes
         if (std::difftime(std::time(nullptr), last_save) > 60) {
