@@ -1,27 +1,74 @@
-# **MyAsciiPet**
-## *A terminal compagnion made in C++.*
-## Tamagotchi like but much better
+# MyAsciiPet
 
-### infos :
-  use make to compile the project, you will need c++ compiler, the rest should be included
+*A terminal companion developed in C++*
 
-### how to :
+MyAsciiPet is a Tamagotchi-inspired project.
 ```
-first use -->
-./pet create "name"
-create your pet, it will also make a saved folder
+   .___,        
+___('v')___     
+`"-\._./-"'     
+    ^ ^      
+```
+## Prerequisites
 
-if you want to see your pet, use -->
+- C++ compiler
+- Make
+
+## Installation
+
+Compile the project using the following command:
+
+```bash
+make
+```
+
+## Usage
+
+### Create a new companion
+
+```bash
+./pet create <name>
+```
+
+This command creates your virtual pet and generates a save folder.
+
+### Display your companion
+
+```bash
 ./pet
-it will print the last pet you selected
- 
-if you want to change your selected pet, use -->
-./pet select "name2"
+```
 
-if you want to feed your pet use -->
+Displays the last selected pet.
+
+### Select a different companion
+
+```bash
+./pet select <name>
+```
+
+### Feed your companion
+
+```bash
 ./pet feed
+```
 
-find more action with -->
+### Help and additional commands
+
+To discover all possible actions, use:
+
+```bash
 ./pet help
 ```
-# ENJOY !!!
+
+## Features
+- Save system
+- Various interactions (feeding, etc.)
+- Intuitive command-line interface
+
+## Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+---
+
+Enjoy your new ASCII companion!
