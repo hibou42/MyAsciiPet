@@ -1,4 +1,10 @@
 # **MyAsciiPet**
+```
+   .___,        
+___('v')___     
+`"-\._./-"'     
+    ^ ^
+```
 ## *A terminal compagnion made in C++.*
 ## Tamagotchi like but much better
 
@@ -10,6 +16,7 @@
 WIP, I just found a new way to have non-blocking input !!!
 Soo I implement this new way but I lost the saved system, next improvement =D
 
-but if you want to see, I added my Pet save to have a look, just make the projet and then do ./asciiPet
+but if you want to see, I added my Pet save to have a look
+just make the projet and then do ./asciiPet
 ```
 # ENJOY !!!
