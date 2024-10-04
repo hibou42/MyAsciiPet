@@ -1,11 +1,6 @@
 #ifndef PET_HPP
 # define PET_HPP
 
-#include <string>
-#include <iostream>
-#include <ctime>
-#include <algorithm>
-
 class Pet {
 private:
 	std::string name;
@@ -56,14 +51,11 @@ public:
 		}
 	}
 
-	size_t display_stats() {
-		size_t nbDrawnLines = 0;
-		std::cout << "Hunger: " << hunger << std::endl;
-		std::cout << "Happiness: " << happiness << std::endl;
-		std::cout << "Cleanliness: " << cleanliness << std::endl;
-		std::cout << "Toilette: " << bathroom << std::endl;
-		nbDrawnLines += 4;
-		return (nbDrawnLines);
+	void display_stats() {
+		std::cout << "Faim: " << hunger << std::endl;
+		std::cout << "Bonheur: " << happiness << std::endl;
+		std::cout << "Propreté: " << cleanliness << std::endl;
+		std::cout << "Toilettes: " << bathroom << std::endl;
 	}
 
 	// Getters

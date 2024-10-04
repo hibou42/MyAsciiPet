@@ -1,4 +1,4 @@
-NAME	= asciiPet
+NAME	= pet
 
 #***** Flags *****#
 
@@ -7,9 +7,7 @@ CXXFLAGS = -std=c++17 -I./include
 
 #***** Sources / Objs *****#
 
-SRCS	=	main.cpp \
-			srcs/game_logic.cpp \
-			srcs/input_handler.cpp
+SRCS	= pet.cpp
 
 OBJ_DIR	= obj
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))

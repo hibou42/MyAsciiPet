@@ -47,7 +47,7 @@ PetManager load_game(const std::string& filename = "pet_save") {
 		}
 
 		json save_data = json::parse(file);
-		
+
 		for (const auto& [name, pet_data] : save_data["pets"].items()) {
 			Pet pet(pet_data["name"]);
 			pet.set_hunger(pet_data["hunger"]);
