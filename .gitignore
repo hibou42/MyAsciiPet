@@ -1,6 +1,7 @@
 # Personal ingore
 saves/
 obj/
+asciiPet
 
 # Prerequisites
 *.d
