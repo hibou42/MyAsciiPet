@@ -23,17 +23,20 @@ public:
 
 	void update_stats() {
 		std::time_t current_time = std::time(nullptr);
-		double elapsed_time = difftime(current_time, last_update);
 		
-		hunger = std::max(0.0, hunger - elapsed_time * 0.5);
-		cleanliness = std::max(0.0, cleanliness - elapsed_time * 0.2);
-		toilet = std::min(1000.0, toilet + elapsed_time * 0.4);
-		if (hunger > 500 && cleanliness > 500 && toilet < 500)
-			happiness = std::min(1000.0, happiness + elapsed_time * 0.3);
-		else
-			happiness = std::max(0.0, happiness - elapsed_time * 0.3);
-
-		last_update = current_time;
+		while (last_update < current_time) {
+			// Mise à jour pour une seconde
+			hunger = std::max(0.0, hunger - 0.5);
+			cleanliness = std::max(0.0, cleanliness - 0.2);
+			toilet = std::min(1000.0, toilet + 0.4);
+			
+			if (hunger > 500 && cleanliness > 500 && toilet < 500) {
+				happiness = std::min(1000.0, happiness + 0.3);
+			} else {
+				happiness = std::max(0.0, happiness - 0.3);
+			}
+			last_update++;
+		}
 	}
 
 	void feed() {
