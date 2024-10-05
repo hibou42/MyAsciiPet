@@ -59,16 +59,6 @@ public:
 		}
 	}
 
-	size_t display_stats() {
-		size_t nbDrawnLines = 0;
-		std::cout << "Happiness: " << happiness << std::endl;
-		std::cout << "Hunger: " << hunger << std::endl;
-		std::cout << "Cleanliness: " << cleanliness << std::endl;
-		std::cout << "Toilet: " << toilet << std::endl;
-		nbDrawnLines += 4;
-		return (nbDrawnLines);
-	}
-
 	// Getters
 	std::string get_name() const { return name; }
 	double get_hunger() const { return hunger; }

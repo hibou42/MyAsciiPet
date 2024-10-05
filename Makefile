@@ -9,7 +9,8 @@ CXXFLAGS = -std=c++17 -I./include
 
 SRCS	=	main.cpp \
 			srcs/game_logic.cpp \
-			srcs/input_handler.cpp
+			srcs/input_handler.cpp \
+			srcs/display_manager.cpp
 
 OBJ_DIR	= obj
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
