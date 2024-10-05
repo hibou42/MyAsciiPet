@@ -13,29 +13,55 @@ private:
 
 public:
 	PetManager() {
-		try {
-			std::ifstream file("saves/pet_save.json");
-			if (!file.is_open()) {
-				throw std::runtime_error("Fichier de sauvegarde non trouvé");
+		fs::create_directories("saves");
+		std::ifstream file("saves/pet_save.json");
+		
+		if (!file.is_open()) {
+			std::string pet_name;
+			std::cout << "Welcome ! What's you pet's name ? ";
+			std::getline(std::cin, pet_name);
+			std::cout << "\033[1A";
+			for (int i = 0; i < 34 + pet_name.size(); i++) {
+				std::cout << " ";
 			}
+			std::cout << std::endl << "\033[1A";
 
-			json save_data = json::parse(file);
+			json new_save_data = {
+				{"active_pet", pet_name},
+				{"pets", {
+					{pet_name, {
+						{"name", pet_name},
+						{"hunger", 1000.0},
+						{"happiness", 500.0},
+						{"cleanliness", 1000.0},
+						{"bathroom", 0.0},
+						{"last_update", std::time(nullptr)}
+					}}
+				}}
+			};
 
-			for (const auto& [name, pet_data] : save_data["pets"].items()) {
-				Pet pet(pet_data["name"]);
-				pet.set_hunger(pet_data["hunger"]);
-				pet.set_happiness(pet_data["happiness"]);
-				pet.set_cleanliness(pet_data["cleanliness"]);
-				pet.set_bathroom(pet_data["bathroom"]);
-				pet.set_last_update(pet_data["last_update"]);
-				pets[name] = pet;
-			}
+			std::ofstream new_file("saves/pet_save.json");
+			new_file << new_save_data.dump(4);  // Indentation de 4 espaces pour la lisibilité
+			new_file.close();
+			
+			// Rouvrir le fichier en mode lecture
+			file.open("saves/pet_save.json");
+		}
 
-			if (!save_data["active_pet"].is_null()) {
-				select_pet(save_data["active_pet"], 0);
-			}
-		} catch (const std::exception& e) {
-			std::cout << "Erreur lors du chargement : " << e.what() << std::endl;
+		json save_data = json::parse(file);
+
+		for (const auto& [name, pet_data] : save_data["pets"].items()) {
+			Pet pet(pet_data["name"]);
+			pet.set_hunger(pet_data["hunger"]);
+			pet.set_happiness(pet_data["happiness"]);
+			pet.set_cleanliness(pet_data["cleanliness"]);
+			pet.set_toilet(pet_data["bathroom"]);
+			pet.set_last_update(pet_data["last_update"]);
+			pets[name] = pet;
+		}
+
+		if (!save_data["active_pet"].is_null()) {
+			select_pet(save_data["active_pet"], 0);
 		}
 	}
 
@@ -51,14 +77,14 @@ public:
 				{"hunger", pet.get_hunger()},
 				{"happiness", pet.get_happiness()},
 				{"cleanliness", pet.get_cleanliness()},
-				{"bathroom", pet.get_bathroom()},
+				{"bathroom", pet.get_toilet()},
 				{"last_update", pet.get_last_update()}
 			};
 		}
 
 		std::ofstream file("saves/pet_save.json");
 		file << save_data.dump(4);
-		std::cout << "Jeu sauvegardé." << std::endl;
+		std::cout << "Your game has been saved. Good bye !!!" << std::endl;
 	}
 
 	void create_pet(const std::string& name) {
@@ -100,12 +126,10 @@ public:
 		return nullptr;
 	}
 
-	void help() {
-		std::cout << "Utilisez 'create', 'select', 'list'." << std::endl;
-	}
-
 	const std::map<std::string, Pet>& get_pets() const { return pets; }
+
 	std::string get_active_pet_name() const { return active_pet; }
+
 	void add_pet(const std::string& name, const Pet& pet) { pets[name] = pet; }
 };
 

@@ -8,10 +8,27 @@
 #include <ctime>
 #include <cstdlib>
 
-GameLogic::GameLogic() {}
+GameLogic* GameLogic::instance = nullptr;
+
+GameLogic::GameLogic() {
+    instance = this;
+}
+
+GameLogic::~GameLogic() {
+    instance = nullptr;
+}
+
+void GameLogic::signal_handler(int signal) {
+    if (signal == SIGINT && instance) {
+        std::cout <<"Ctrl+C trigger->stop gameloop" << std::endl;
+        instance->gameRunning = false;
+        instance->numberDrawnLines++;
+    }
+}
 
 void GameLogic::run(Pet *pet) {
-    while (true) {
+    std::signal(SIGINT, GameLogic::signal_handler);
+    while (this->gameRunning == true) {
         auto debut = std::chrono::steady_clock::now();
         char lastKey = 0;
 
@@ -24,18 +41,15 @@ void GameLogic::run(Pet *pet) {
         } while (std::chrono::duration_cast<std::chrono::seconds>(
                      std::chrono::steady_clock::now() - debut)
                      .count() < 1);
-        processInput(lastKey);
-        updateGame(pet);
+        processInput(lastKey, pet);
+        pet->update_stats();
         renderGame(pet);
     }
 }
 
 // reminder : C = rightArrow / D = leftArrow
-void GameLogic::processInput(char input) {
-    if (input == 'q') {
-        std::cout << "Sortie du programme." << std::endl;
-        exit(0);
-    } else if (input == 'C') {
+void GameLogic::processInput(char input, Pet *pet) {
+    if (input == 'C') {
         this->activeMenuIndex = (this->activeMenuIndex + 1) % this->menus.size();
     } else if (input == 'D') {
         if (this->activeMenuIndex == 0) {
@@ -44,13 +58,23 @@ void GameLogic::processInput(char input) {
             this->activeMenuIndex--;
         }
     } else if (input == '\n') {
-        this->compteur++;
+        switch (this->activeMenuIndex) {
+            case 0: // Feed
+                pet->feed();
+                break;
+            case 1: // Clean
+                pet->clean();
+                break;
+            case 2: // Toilet
+                pet->use_toilet();
+                break;
+            case 3: // Quit
+                this->gameRunning = false;
+            default:
+                // std::cout << "Action non reconnue." << std::endl;
+                break;
+        }
     }
-}
-
-void GameLogic::updateGame(Pet *pet) {
-    pet->update_stats();
-    test++;
 }
 
 void GameLogic::renderGame(Pet *pet) {
@@ -61,7 +85,7 @@ void GameLogic::renderGame(Pet *pet) {
     }
 
     // start drawing
-    std::cout << "My ASCII Pet: WiP" << std::endl;
+    std::cout << "My ASCII Pet " << pet->get_name() << std::endl;
     this->numberDrawnLines++;
 
     //animation drawing
@@ -103,6 +127,8 @@ void GameLogic::renderGame(Pet *pet) {
     this->numberDrawnLines += pet->display_stats();
 
     // menu drawing
+    std::cout << "__________________________________" << std::endl << "| ";
+    this->numberDrawnLines++;
     for (size_t i = 0; i < this->menus.size(); ++i) {
             if (i == this->activeMenuIndex) {
                 std::cout << "|" << this->menus[i] << "| ";
@@ -110,8 +136,6 @@ void GameLogic::renderGame(Pet *pet) {
                 std::cout << " " << this->menus[i] << "  ";
             }
         }
-        std::cout << std::endl;
-        this->numberDrawnLines++;
-    std::cout << test << " Compteur : " << compteur << std::endl;
+    std::cout << "|" << std::endl;
     this->numberDrawnLines++;
 }

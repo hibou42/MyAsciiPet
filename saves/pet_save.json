@@ -1,13 +1,13 @@
 {
-    "active_pet": "hibou",
+    "active_pet": "Hibou",
     "pets": {
-        "hibou": {
-            "bathroom": 0.0,
-            "cleanliness": 1000.0,
-            "happiness": 500.0,
-            "hunger": 1000.0,
-            "last_update": 1728062095,
-            "name": "hibou"
+        "Hibou": {
+            "bathroom": 132.80000000000015,
+            "cleanliness": 933.5999999999983,
+            "happiness": 599.5999999999988,
+            "hunger": 834.0,
+            "last_update": 1728155137,
+            "name": "Hibou"
         }
     }
 }

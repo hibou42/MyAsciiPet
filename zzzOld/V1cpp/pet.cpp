@@ -8,7 +8,7 @@ void save_game(const PetManager& manager, const std::string& filename);
 
 std::atomic<bool> quit(false);
 PetManager* global_manager = nullptr;
-
+std::signal(SIGINT, signal_handler);
 void signal_handler(int signal) {
 	if (signal == SIGINT) {
 		std::cout << "\nReception de Ctrl+C. Sauvegarde en cours..." << std::endl;
