@@ -12,8 +12,9 @@ DisplayManager::DisplayManager()
       current_state(0) {}
 
 void DisplayManager::clearScreen() {
-    while (this->numberDrawnLines > 0) {
-        std::cout << "\033[1A";
+    while (this->numberDrawnLines > 0) { 
+        std::cout << "\033[1A"; // Move the cursor up one line
+        std::cout << "\033[2K"; // Erase the entire line where the cursor is currently positioned
         this->numberDrawnLines--;
     }
 }
