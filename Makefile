@@ -45,4 +45,10 @@ test: all
 	@echo "Let's run !!!"
 	@./$(NAME)
 
-.PHONY: clean fclean re test
+TEST: fclean all 
+	@echo "Saves will be delete"
+	@rm -rf saves
+	@echo "Let's run !!!"
+	@./$(NAME)
+
+.PHONY: clean fclean re test TEST

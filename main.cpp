@@ -15,11 +15,11 @@
 #include "include/PetManager.hpp"
 
 int main(int argc, char* argv[]) {
-    // checkARG(argc, argv);
-    // checkSAVES();
     PetManager manager;
     configureTerminal();
     GameLogic game;
     game.run(manager.get_active_pet());
+
+    resetTerminal();
     return 0;
 }
