@@ -20,8 +20,10 @@ GameLogic::~GameLogic() {
 
 void GameLogic::signal_handler(int signal) {
     if (signal == SIGINT && instance) {
-        std::cout <<"Ctrl+C trigger->stop gameloop" << std::endl;
+        std::cout <<"Ctrl+C trigger -> stop gameloop" << std::endl;
         instance->gameRunning = false;
+        std::cout <<"Your game has been not saved" << std::endl;
+        exit(1);
     }
 }
 

@@ -33,8 +33,16 @@ $(NAME) :	${OBJS}
 clean:
 	@echo "Delete in progress"
 	@rm -rf $(OBJ_DIR)
-	@rm -rf $(NAME)
 
-re: clean $(NAME)
+fclean: clean
+	@rm -f $(NAME)
 
-.PHONY: clean fclean re
+re: fclean $(NAME)
+
+test: all
+	@echo "Saves will be delete"
+	@rm -rf saves
+	@echo "Let's run !!!"
+	@./$(NAME)
+
+.PHONY: clean fclean re test
