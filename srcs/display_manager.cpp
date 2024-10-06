@@ -25,7 +25,7 @@ void DisplayManager::displayPetName(const std::string& name) {
 }
 
 void DisplayManager::displayAnimation(const std::string& petName) {
-    std::string file_path = "./ascii_art/owl" + this->states[this->current_state];
+    std::string file_path = "./assets/owl" + this->states[this->current_state];
     std::ifstream file(file_path);
     if (!file.is_open()) {
         std::cerr << "Could not open the file: " << file_path << std::endl;
