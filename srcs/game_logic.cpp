@@ -30,7 +30,7 @@ void GameLogic::signal_handler(int signal) {
 
 void GameLogic::run(Pet *pet) {
     std::signal(SIGINT, GameLogic::signal_handler);
-    const std::chrono::milliseconds loop_duration(1000); // 1000ms = 1 seconde
+    const std::chrono::milliseconds loop_duration(500); // 1000ms = 1 seconde
 
     while (this->gameRunning == true) {
         auto debut = std::chrono::steady_clock::now();
