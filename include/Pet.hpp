@@ -14,6 +14,8 @@ private:
 	double cleanliness;
 	double toilet;
 	std::time_t last_update;
+	std::string last_action;
+	std::time_t last_action_time;
 
 public:
 	Pet(std::string name = "Default") : 
@@ -41,21 +43,25 @@ public:
 
 	void feed() {
 		hunger = std::min(1000.0, hunger + 1000);
-		// std::cout << "Vous avez nourri " << name << "!" << std::endl;
+		last_action = "Vous avez nourri " + name + "!";
+		last_action_time = std::time(nullptr);
 	}
 
 	void clean() {
 		cleanliness = std::min(1000.0, cleanliness + 1000);
-		// std::cout << "Vous avez nettoyé " << name << "!" << std::endl;
+		last_action = "Vous avez lavé " + name + "!";
+		last_action_time = std::time(nullptr);
 	}
 
 	void use_toilet() {
 		if (toilet > 300) {
 			toilet = std::max(0.0, toilet - 1000);
 			cleanliness = std::max(0.0, cleanliness - 200);
-			// std::cout << name << " a utilisé les toilettes!" << std::endl;
+			last_action = name + " a utilisé les toilettes!";
+			last_action_time = std::time(nullptr);
 		} else {
-			// std::cout << name << " n'a pas besoin d'aller aux toilettes pour le moment." << std::endl;
+			last_action = name + " n'a pas besoin d'aller aux toilettes pour le moment.";
+			last_action_time = std::time(nullptr);
 		}
 	}
 
@@ -66,6 +72,8 @@ public:
 	double get_cleanliness() const { return cleanliness; }
 	double get_toilet() const { return toilet; }
 	std::time_t get_last_update() const { return last_update; }
+	std::string get_last_action() const {return last_action; }
+	std::time_t get_last_action_time() const {return last_action_time; }
 
 	// Setters
 	void set_hunger(double value) { hunger = value; }
@@ -73,6 +81,8 @@ public:
 	void set_cleanliness(double value) { cleanliness = value; }
 	void set_toilet(double value) { toilet = value; }
 	void set_last_update(std::time_t value) { last_update = value; }
+	void set_last_action (std::string value) { last_action = value; }
+	void set_last_action_time (std::time_t value) { last_action_time = value; }
 };
 
 #endif

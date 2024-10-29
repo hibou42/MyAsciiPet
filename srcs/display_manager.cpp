@@ -66,6 +66,19 @@ void DisplayManager::displayStats(const Pet* pet) {
     this->numberDrawnLines += 4;
 }
 
+void DisplayManager::displayAction(const Pet *pet) {
+    std::time_t current_time = std::time(nullptr);
+    std::time_t diff_time = current_time - pet->get_last_action_time();
+    if (pet->get_last_action().empty() || diff_time >= 2) {
+        std::cout << "                                  " << std::endl;
+        this->numberDrawnLines++;
+    }
+    else {
+        std::cout << pet->get_last_action() << std::endl;
+        this->numberDrawnLines++;
+    }
+}
+
 void DisplayManager::displayMenu() {
     std::cout << "__________________________________" << std::endl << "| ";
     this->numberDrawnLines++;
@@ -85,6 +98,7 @@ void DisplayManager::render(const Pet* pet) {
     displayPetName(pet->get_name());
     displayAnimation(pet->get_name());
     displayStats(pet);
+    displayAction(pet);
     displayMenu();
 }
 

@@ -20,6 +20,7 @@ public:
     void displayPetName(const std::string& name);
     void displayAnimation(const std::string& petName);
     void displayStats(const Pet* pet);
+    void displayAction(const Pet *pet);
     void displayMenu();
     void render(const Pet* pet);
     
