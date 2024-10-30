@@ -2,6 +2,7 @@
 #define GAME_LOGIC_HPP
 
 #include <csignal>
+#include <cmath>
 #include "Pet.hpp"
 #include "display_manager.hpp"
 

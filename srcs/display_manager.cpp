@@ -19,9 +19,11 @@ void DisplayManager::clearScreen() {
     }
 }
 
-void DisplayManager::displayPetName(const std::string& name) {
-    std::cout << "My ASCII Pet " << name << std::endl;
-    this->numberDrawnLines++;
+void DisplayManager::displayPetInfo(const Pet* pet) {
+    std::cout << "My ASCII Pet: " << pet->get_name() << std::endl;
+    std::cout << "LVL " << pet->get_level() << " ";
+    std::cout << pet->get_xp() << "/" << pet->getXpForNextLevel() << "xp" << std::endl;
+    this->numberDrawnLines += 2;
 }
 
 void DisplayManager::displayAnimation(const std::string& petName) {
@@ -95,7 +97,7 @@ void DisplayManager::displayMenu() {
 
 void DisplayManager::render(const Pet* pet) {
     clearScreen();
-    displayPetName(pet->get_name());
+    displayPetInfo(pet);
     displayAnimation(pet->get_name());
     displayStats(pet);
     displayAction(pet);

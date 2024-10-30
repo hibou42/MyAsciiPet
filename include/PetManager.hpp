@@ -31,6 +31,8 @@ public:
 				{"pets", {
 					{pet_name, {
 						{"name", pet_name},
+						{"level", 1},
+						{"xp", 0},
 						{"hunger", 1000.0},
 						{"happiness", 500.0},
 						{"cleanliness", 1000.0},
@@ -52,6 +54,8 @@ public:
 
 		for (const auto& [name, pet_data] : save_data["pets"].items()) {
 			Pet pet(pet_data["name"]);
+			pet.set_level(pet_data["level"]);
+			pet.set_xp(pet_data["xp"]);
 			pet.set_hunger(pet_data["hunger"]);
 			pet.set_happiness(pet_data["happiness"]);
 			pet.set_cleanliness(pet_data["cleanliness"]);
@@ -74,6 +78,8 @@ public:
 		for (const auto& [name, pet] : pets) {
 			save_data["pets"][name] = {
 				{"name", pet.get_name()},
+				{"level", pet.get_level()},
+				{"xp", pet.get_xp()},
 				{"hunger", pet.get_hunger()},
 				{"happiness", pet.get_happiness()},
 				{"cleanliness", pet.get_cleanliness()},
