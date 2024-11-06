@@ -18,7 +18,8 @@ public:
     
     void clearScreen();
     void displayPetInfo(const Pet* pet);
-    void displayAnimation(const std::string& petName);
+    void displayAnimation();
+    void displayDeath();
     void displayStats(const Pet* pet);
     void displayAction(const Pet *pet);
     void displayMenu();

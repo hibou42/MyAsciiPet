@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 DisplayManager::DisplayManager() 
     : numberDrawnLines(0), 
@@ -26,7 +27,7 @@ void DisplayManager::displayPetInfo(const Pet* pet) {
     this->numberDrawnLines += 2;
 }
 
-void DisplayManager::displayAnimation(const std::string& petName) {
+void DisplayManager::displayAnimation() {
     std::string file_path = "./assets/owl" + this->states[this->current_state];
     std::ifstream file(file_path);
     if (!file.is_open()) {
@@ -60,11 +61,63 @@ void DisplayManager::displayAnimation(const std::string& petName) {
     this->current_state = (this->current_state + 1) % this->states.size();
 }
 
+void DisplayManager::displayDeath() {
+    std::string file_path = "./assets/owlDeath";
+    std::ifstream file(file_path);
+    if (!file.is_open()) {
+        std::cerr << "Could not open the file: " << file_path << std::endl;
+        return;
+    }
+
+    char c;
+    bool is_new_line = true;
+    while (file.get(c)) {
+        std::cout << c;
+        if (c == '\n') {
+            this->numberDrawnLines++;
+        }
+    }
+    std::cout << std::endl;
+    this->numberDrawnLines++;
+    file.close();
+}
+
+void printBar(double value) {
+    const int BAR_LENGTH = 10;
+    int filledBars = std::ceil(value / 100); // ceil -> Rounds up to the nearest integer
+    if (filledBars > BAR_LENGTH) 
+        filledBars = BAR_LENGTH; // Prevents having more than 10 bars if value > 1000
+
+    std::cout << "|";
+    for (int i = 0; i < filledBars; i++) {
+        std::cout << "-";
+    }
+    for (int i = filledBars; i < BAR_LENGTH; i++) {
+        std::cout << " ";
+    }
+    std::cout << "|";
+
+    //for testing only
+    std::cout << " " << value;
+}
+
 void DisplayManager::displayStats(const Pet* pet) {
-    std::cout << "Happiness: " << pet->get_happiness() << std::endl;
-    std::cout << "Hunger: " << pet->get_hunger() << std::endl;
-    std::cout << "Cleanliness: " << pet->get_cleanliness() << std::endl;
-    std::cout << "Toilet: " << pet->get_toilet() << std::endl;
+    std::cout << "Happy:  "; 
+    printBar(pet->get_happiness());
+    std::cout << std::endl;
+    
+    std::cout << "Hunger: ";
+    printBar(pet->get_hunger());
+    std::cout << std::endl;
+    
+    std::cout << "Shower: ";
+    printBar(pet->get_cleanliness());
+    std::cout << std::endl;
+    
+    std::cout << "Toilet: ";
+    printBar(pet->get_toilet());
+    std::cout << std::endl;
+    
     this->numberDrawnLines += 4;
 }
 
@@ -98,7 +151,10 @@ void DisplayManager::displayMenu() {
 void DisplayManager::render(const Pet* pet) {
     clearScreen();
     displayPetInfo(pet);
-    displayAnimation(pet->get_name());
+    if (pet->get_hunger() > 0)
+        displayAnimation();
+    else
+        displayDeath();
     displayStats(pet);
     displayAction(pet);
     displayMenu();
