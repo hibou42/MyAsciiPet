@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <iomanip>
 
 DisplayManager::DisplayManager() 
     : numberDrawnLines(0), 
@@ -22,8 +23,12 @@ void DisplayManager::clearScreen() {
 
 void DisplayManager::displayPetInfo(const Pet* pet) {
     std::cout << "My ASCII Pet: " << pet->get_name() << std::endl;
+
+    std::cout << std::fixed << std::setprecision(0);
     std::cout << "LVL " << pet->get_level() << " ";
     std::cout << pet->get_xp() << "/" << pet->getXpForNextLevel() << "xp" << std::endl;
+    std::cout << std::fixed << std::setprecision(1);
+
     this->numberDrawnLines += 2;
 }
 

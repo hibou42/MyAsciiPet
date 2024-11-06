@@ -57,8 +57,11 @@ public:
 			} else {
 				happiness = std::max(0.0, happiness - 0.3);
 			}
-			if (happiness > 500) {
+			if (hunger > 500 && cleanliness > 500 && toilet < 500) {
 				gainExperience(1);
+			}
+			if (happiness > 500) {
+				gainExperience(2);
 			}
 			if (hunger == 0) {
 				last_action = name + " est mort de faim ...";
